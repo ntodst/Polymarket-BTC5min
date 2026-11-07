@@ -1,0 +1,13 @@
+{
+  "name": "btc-five-minute-paper-bot",
+  "version": "0.5.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node bot.mjs",
+    "demo": "node bot.mjs --demo",
+    "check": "node --check bot.mjs && node --check probability.mjs && node --check rules.mjs && node --check settlement.mjs && node --check oracle.mjs && node --check dashboard.mjs && node --check web/app.js",
+    "test": "node --test rules.test.mjs probability.test.mjs settlement.test.mjs"
+  }
+}

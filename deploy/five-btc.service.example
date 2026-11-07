@@ -1,0 +1,23 @@
+[Unit]
+Description=Five BTC paper trading dashboard
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+# Change username, directory, and Node path to match your Pi.
+User=pi
+WorkingDirectory=/home/pi/Polymarket-BTC-5min
+EnvironmentFile=-/home/pi/Polymarket-BTC-5min/.env
+ExecStart=/usr/bin/node bot.mjs --host 0.0.0.0 --port 3000
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/pi/Polymarket-BTC-5min/data
+
+[Install]
+WantedBy=multi-user.target

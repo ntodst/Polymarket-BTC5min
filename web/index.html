@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>Five / BTC Paper Desk</title><link rel="stylesheet" href="/app.css"><script src="/app.js" defer></script></head>
+<body>
+<aside class="rail"><a href="#overview" class="monogram" aria-label="Five dashboard">V<span>·</span></a><a href="#overview" class="rail-link selected" aria-label="Overview">◈</a><a href="#positions" class="rail-link" aria-label="Positions">≋</a><a href="#settings" class="rail-link" aria-label="Exit settings">⚙</a><span class="rail-foot">BTC<br>5M</span></aside>
+<main id="overview">
+<header><div><div class="eyebrow">FIVE / TRADING DESK</div><h1>Bitcoin, in motion<span>.</span></h1></div><div class="header-actions"><span id="mode" class="badge">PAPER ONLY</span><span class="connection"><i id="connection-dot"></i><span id="connection">Connecting</span></span><button id="pause" class="button secondary" disabled>Pause entries</button></div></header>
+<div id="stale" class="stale" role="status" hidden>Connection interrupted. Values below are the last received snapshot.</div>
+<section class="metrics" aria-label="Paper account summary">
+ <article class="metric"><span class="eyebrow">PAPER EQUITY <span class="muted">/ liquidation</span></span><strong id="equity">—</strong><span id="total-pnl" class="metric-note">Waiting for data</span></article>
+ <article class="metric"><span class="eyebrow">REALIZED P&amp;L</span><strong id="realized">—</strong><span class="metric-note">Net of trading fees</span></article>
+ <article class="metric risk-metric"><div><span class="eyebrow">COMBINED CAPITAL AT RISK</span><strong id="risk">—</strong><span id="risk-caption" class="metric-note">1% shared across all positions</span></div><div class="risk-ring" id="risk-ring"><span id="risk-percent">—</span></div></article>
+ <article class="metric"><span class="eyebrow">CASH / FILLS</span><strong id="cash">—</strong><span id="fees" class="metric-note">—</span></article>
+</section>
+<div class="workspace">
+ <div class="main-column">
+ <section class="panel chart-panel">
+  <div class="panel-heading"><div><span class="eyebrow">BTC / USD <span id="oracle-badge" class="source">CHAINLINK</span></span><div class="price-line"><strong id="btc-price">—</strong><span id="price-vs-target">Awaiting oracle</span></div></div><div class="countdown-box"><span class="eyebrow">WINDOW CLOSES IN</span><strong id="countdown">—</strong></div></div>
+  <div class="chart-wrap"><canvas id="chart" aria-label="Live BTC reference price and settlement threshold" role="img"></canvas><div id="chart-empty">Waiting for the BTC reference feed<span>The order book and exit controls stay available.</span></div></div>
+  <div class="chart-legend"><span><i class="orange-dot"></i> BTC reference</span><span><i class="dash"></i> Price to beat <b id="threshold">—</b></span><span id="settlement-kind" class="push-right">Checking rules</span></div>
+ </section>
+ <section class="panel positions-panel" id="positions"><div class="panel-heading"><div><h2>Open positions <span id="position-count" class="count">0</span></h2><p>Exit early. Keep the risk budget working.</p></div><span class="badge subtle">PAPER EXECUTION</span></div><div id="position-list"><div class="empty"><span>↗</span>No open positions<small>The bot enters only when price, liquidity, and risk conditions agree.</small></div></div></section>
+ <section class="panel book-panel"><div class="panel-heading"><div><h2>The order book</h2><p>Available depth · prices in cents · sizes in shares</p></div><span class="live-tag">LIVE SNAPSHOTS</span></div><div class="books"><div><h3><span class="up">↗ UP</span><span id="up-spread" class="muted">—</span></h3><table><thead><tr><th>Bid size</th><th>Bid ¢</th><th>Ask ¢</th><th>Ask size</th></tr></thead><tbody id="up-book"></tbody></table></div><div><h3><span class="down">↘ DOWN</span><span id="down-spread" class="muted">—</span></h3><table><thead><tr><th>Bid size</th><th>Bid ¢</th><th>Ask ¢</th><th>Ask size</th></tr></thead><tbody id="down-book"></tbody></table></div></div></section>
+ </div>
+ <div class="side-column">
+ <section class="panel decision-panel"><div class="eyebrow">WHAT THE BOT SEES</div><div id="decision-state" class="decision-state">CONNECTING</div><p id="decision">Waiting for the first snapshot.</p><div class="probability-head"><span>UP probability</span><b id="probability">—</b></div><div class="probability-bar"><span id="probability-bar"></span></div><div class="model-detail"><span>Model range</span><b id="model-range">—</b></div><div class="model-detail"><span>Gaussian / heavy-tail</span><b id="scenario-probabilities">—</b></div><div class="model-detail"><span>Net edge · UP / DOWN</span><b id="edges">—</b></div><div class="model-detail"><span>BTC volatility / √sec</span><b id="volatility">—</b></div><div id="model-reason" class="model-reason">The model is experimental. Paper trading only.</div></section>
+ <section class="panel settings-panel" id="settings"><div class="panel-heading"><div><h2>Exit plan</h2><p>Based on net sale value, after costs.</p></div></div><form id="settings-form"><div class="setting-grid"><label>Take profit<span class="input-wrap"><input id="take-profit" name="takeProfit" type="number" min="1" max="200" step="1" value="15" required><span>%</span></span></label><label>Stop loss<span class="input-wrap"><input id="stop-loss" name="stopLoss" type="number" min="1" max="80" step="1" value="10" required><span>%</span></span></label><label>Trailing giveback<span class="input-wrap"><input id="trailing-stop" name="trailingStop" type="number" min="0" max="50" step="1" value="5" required><span>pp</span></span></label><label>Max holding time<span class="input-wrap"><input id="max-hold" name="maxHoldSeconds" type="number" min="10" max="300" step="5" value="90" required><span>sec</span></span></label></div><p class="help">Trailing arms at +8% net return. Set giveback to 0 to disable. Exits depend on available bids.</p><button class="button save-button" type="submit">Save exit plan <span>↗</span></button><div id="settings-feedback" class="feedback" role="status"></div></form></section>
+ <section class="panel activity-panel"><div class="panel-heading"><h2>Activity</h2><span class="muted small">LOCAL TIME</span></div><ol id="activity"><li class="activity-empty">Events appear here as the bot runs.</li></ol></section>
+ </div>
+</div>
+<footer><span><i class="orange-dot"></i> Built for observation. Every order here is simulated.</span><span id="last-update">Waiting for data</span></footer>
+</main><div id="toast" class="toast" role="status" hidden></div>
+</body></html>
